@@ -1,15 +1,17 @@
-import os
-import wget
-import zipfile
+import pandas as pd
 
-# Download the zipped dataset
-url = 'https://storage.googleapis.com/trainingdata-mlops/data.zip'
-zip_name = "data.zip"
-wget.download(url, zip_name)
+url_train='https://drive.google.com/file/d/1_lR9J9bzi27mFd4YtG9v-uyYQrsLTQjn/view?usp=sharing'
+file_id_train = url_train.split('/')[-2]
+read_url_train ='https://drive.google.com/uc?id=' + file_id_train
 
-# Unzip it and standardize the .csv filename
-with zipfile.ZipFile(zip_name, "r") as zip_ref:
-	zip_ref.extractall()
+# read the train
+df_train = pd.read_csv(read_url_train)
+df_train.to_csv("train.csv")
 
-os.remove(zip_name)
-print('\nAll files are being extracted.')
+url_test='https://drive.google.com/file/d/1_lR9J9bzi27mFd4YtG9v-uyYQrsLTQjn/view?usp=sharing'
+file_id_test = url_test.split('/')[-2]
+read_url_test ='https://drive.google.com/uc?id=' + file_id_test
+
+# read the test
+df_test = pd.read_csv(read_url_test)
+df_test.to_csv("test.csv")
