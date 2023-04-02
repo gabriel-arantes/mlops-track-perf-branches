@@ -9,7 +9,7 @@ jobs:
       - uses: iterative/setup-cml@v1
       - name: Set permissions for repository
         env:
-          REPO_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           sudo chown -R $(whoami):$(id -gn) .
           sudo chmod -R 755 .
