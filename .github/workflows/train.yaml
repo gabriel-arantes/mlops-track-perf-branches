@@ -7,18 +7,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: iterative/setup-cml@v1
-      - name: Train model
+      - name: Set permissions for repository
         env:
           REPO_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          sudo chown -R $(whoami):$(id -gn) .
+          sudo chmod -R 755 .
+      
+      - name: Train model
         run: |
           # Your ML workflow goes here
           pip install -r requirements.txt
           dvc repro
-          
-      - name: Set permissions for repository
-        run: |
-          sudo chown -R $(whoami):$(id -gn) .
-          sudo chmod -R 755 .
  
       - name: Write CML report
         run: |
