@@ -1,0 +1,27 @@
+name: classification-testing-pipeline
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    container: ghcr.io/iterative/cml:0-dvc2-base1
+    steps:
+      - uses: actions/checkout@v3
+      - uses: iterative/setup-cml@v1
+      - name: Train model
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Your ML workflow goes here
+          pip install -r requirements.txt
+          dvc repro
+ 
+      - name: Write CML report
+        run: |
+          git fetch --prune
+          dvc metrics diff --show-md master > report.md
+          
+          # Add a figure into the report
+          echo '## ROC Graph of the Model'
+          cml publish ROC.png --md >> report.md
+          
+          cml comment create report.md
