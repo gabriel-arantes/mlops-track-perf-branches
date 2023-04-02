@@ -28,6 +28,6 @@ jobs:
           
           # Add a figure into the report
           echo '## ROC Graph of the Model'
-          cml publish ROC.png --md >> report.md
+          cml publish ROC.png --md >> report.md --token="$GITHUB_TOKEN"
           
-          cml comment create report.md
+          cml comment create report.md --token="$GITHUB_TOKEN"
